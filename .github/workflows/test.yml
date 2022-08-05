@@ -23,7 +23,7 @@ jobs:
       - name: Build
         id: build
         run: |
-          echo "::set-output name=buildResult::${{ result }}, Test"
+          echo "::set-output name=${{ matrix.buildMatrix }}::Test"
   finalJob:
     needs: matrixJob
     runs-on: ubuntu-latest
