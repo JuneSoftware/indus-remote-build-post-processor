@@ -5,6 +5,7 @@ function run(): void {
   const settingsFile = fs.readFileSync(filePath, 'utf8');
 
   console.log(`Reading File ${filePath}`);
+  console.log(`Settings File ${settingsFile}`);
 
   const regexOne = /AndroidBundleVersionCode: (.)/g
   const regexTwo = /buildNumber:\r\n    Standalone: (.)\r\n    iPhone: (.)\r\n    tvOS: (.)/gm;
