@@ -8,3 +8,28 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+  matrixJob:
+    runs-on: ubuntu-latest
+    outputs: 
+      result: ${{ steps.build.outputs.buildResult }}
+    strategy:
+      fail-fast: true
+      matrix:
+        buildMatrix:
+        - Main
+        - Second
+        - Third
+    steps:
+      - name: Build
+        id: build
+        run: |
+          echo "::set-output name=buildResult::${{ outputs.result }}, Test"
+  finalJob:
+    needs: matrixJob
+    runs-on: ubuntu-latest
+    steps:
+      - name: Result
+        id: final
+        run: |
+          echo "${{ needs.matrixJob.outputs.result }}"
+
