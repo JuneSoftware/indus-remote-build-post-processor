@@ -1,15 +1,17 @@
-import fs from 'fs'
+import fs from 'fs';
+import { EOL } from 'os';
 
 function run(): void {
   const filePath = 'ProjectSettings/ProjectSettings.asset';
   const settingsFile = fs.readFileSync(filePath, 'utf8');
 
-  const regexOne = /AndroidBundleVersionCode: (.)/g
-  const regexTwo = /buildNumber:\n    Standalone: (.)\n    iPhone: (.)\n    tvOS: (.)/gm;
+  const regexOne = new RegExp('AndroidBundleVersionCode: (.)', 'g');
+  const regexTwo = new RegExp(`buildNumber:${EOL}    Standalone: (.)${EOL}    iPhone: (.)${EOL}    tvOS: (.)`, 'gm');
 
   let buildNumberMatch = regexOne.exec(settingsFile);
   let regexTwoMatch = regexTwo.exec(settingsFile);
 
+  console.log(EOL);
   console.log(`Reading File ${buildNumberMatch}`);
   console.log(`Settings File ${regexTwoMatch}`);
 

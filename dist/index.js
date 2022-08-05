@@ -11,13 +11,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const fs_1 = __importDefault(__nccwpck_require__(747));
+const os_1 = __nccwpck_require__(87);
 function run() {
     const filePath = 'ProjectSettings/ProjectSettings.asset';
     const settingsFile = fs_1.default.readFileSync(filePath, 'utf8');
-    const regexOne = /AndroidBundleVersionCode: (.)/g;
-    const regexTwo = /buildNumber:\n    Standalone: (.)\n    iPhone: (.)\n    tvOS: (.)/gm;
+    const regexOne = new RegExp('AndroidBundleVersionCode: (.)', 'g');
+    const regexTwo = new RegExp(`buildNumber:${os_1.EOL}    Standalone: (.)${os_1.EOL}    iPhone: (.)${os_1.EOL}    tvOS: (.)`, 'gm');
     let buildNumberMatch = regexOne.exec(settingsFile);
     let regexTwoMatch = regexTwo.exec(settingsFile);
+    console.log(os_1.EOL);
     console.log(`Reading File ${buildNumberMatch}`);
     console.log(`Settings File ${regexTwoMatch}`);
     if (!buildNumberMatch)
@@ -42,6 +44,13 @@ run();
 /***/ ((module) => {
 
 module.exports = require("fs");
+
+/***/ }),
+
+/***/ 87:
+/***/ ((module) => {
+
+module.exports = require("os");
 
 /***/ })
 
