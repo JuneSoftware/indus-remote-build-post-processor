@@ -22,7 +22,7 @@ function run(): void {
   buildNumber++;
 
   modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);
-  modifiedFile = modifiedFile.replace(regexTwoMatch[0], `buildNumber:\r\n    Standalone: ${buildNumber}\r\n    iPhone: ${buildNumber}\r\n    tvOS: ${buildNumber}`)
+  modifiedFile = modifiedFile.replace(regexTwoMatch[0], `buildNumber:${EOL}    Standalone: ${buildNumber}${EOL}    iPhone: ${buildNumber}${EOL}    tvOS: ${buildNumber}`)
   
   fs.writeFileSync(filePath, modifiedFile);
 

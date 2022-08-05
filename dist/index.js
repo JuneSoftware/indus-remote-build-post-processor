@@ -27,7 +27,7 @@ function run() {
     let buildNumber = parseInt(buildNumberMatch[1]);
     buildNumber++;
     modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);
-    modifiedFile = modifiedFile.replace(regexTwoMatch[0], `buildNumber:\r\n    Standalone: ${buildNumber}\r\n    iPhone: ${buildNumber}\r\n    tvOS: ${buildNumber}`);
+    modifiedFile = modifiedFile.replace(regexTwoMatch[0], `buildNumber:${os_1.EOL}    Standalone: ${buildNumber}${os_1.EOL}    iPhone: ${buildNumber}${os_1.EOL}    tvOS: ${buildNumber}`);
     fs_1.default.writeFileSync(filePath, modifiedFile);
     console.log(`Build number ${buildNumber}`);
     console.log(`Modified Settings ${modifiedFile}`);
