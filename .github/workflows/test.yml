@@ -11,9 +11,9 @@ jobs:
   matrixJob:
     runs-on: ubuntu-latest
     outputs: 
-      Main: ${{ steps.build.outputs.buildResult }}
-      Second: ${{ steps.build.outputs.buildResult }}
-      Third: ${{ steps.build.outputs.buildResult }}
+      Main: ${{ steps.build.outputs[matrix.buildMatrix] }}
+      Second: ${{ steps.build.outputs[matrix.buildMatrix] }}
+      Third: ${{ steps.build.outputs[matrix.buildMatrix] }}
     strategy:
       fail-fast: true
       matrix:
@@ -25,7 +25,7 @@ jobs:
       - name: Build
         id: build
         run: |
-          echo "::set-output name=${{ matrix.buildMatrix }}::Test"
+          echo "::set-output name=${{ matrix.buildMatrix }}::${{ matrix.buildMatrix }}"
   finalJob:
     needs: matrixJob
     runs-on: ubuntu-latest
