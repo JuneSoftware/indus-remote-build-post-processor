@@ -11,9 +11,9 @@ jobs:
   matrixJob:
     runs-on: ubuntu-latest
     outputs: 
-      Main: ${{ steps.build.outputs[matrix.buildMatrix] }}
-      Second: ${{ steps.build.outputs[matrix.buildMatrix] }}
-      Third: ${{ steps.build.outputs[matrix.buildMatrix] }}
+      Main: ${{ steps.build.outputs.Main }}
+      Second: ${{ steps.build.outputs.Second }}
+      Third: ${{ steps.build.outputs.Third }}
     strategy:
       fail-fast: true
       matrix:
