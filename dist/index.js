@@ -14,12 +14,12 @@ const fs_1 = __importDefault(__nccwpck_require__(747));
 function run() {
     const filePath = 'ProjectSettings/ProjectSettings.asset';
     const settingsFile = fs_1.default.readFileSync(filePath, 'utf8');
-    console.log(`Reading File ${filePath}`);
-    console.log(`Settings File ${settingsFile}`);
     const regexOne = /AndroidBundleVersionCode: (.)/g;
     const regexTwo = /buildNumber:\r\n    Standalone: (.)\r\n    iPhone: (.)\r\n    tvOS: (.)/gm;
     let buildNumberMatch = regexOne.exec(settingsFile);
     let regexTwoMatch = regexTwo.exec(settingsFile);
+    console.log(`Reading File ${buildNumberMatch}`);
+    console.log(`Settings File ${regexTwoMatch}`);
     if (!buildNumberMatch)
         return;
     if (!regexTwoMatch)
