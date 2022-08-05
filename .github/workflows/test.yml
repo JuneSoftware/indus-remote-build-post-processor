@@ -11,7 +11,9 @@ jobs:
   matrixJob:
     runs-on: ubuntu-latest
     outputs: 
-      result: ${{ steps.build.outputs.buildResult }}
+      Main: ${{ steps.build.outputs.buildResult }}
+      Second: ${{ steps.build.outputs.buildResult }}
+      Third: ${{ steps.build.outputs.buildResult }}
     strategy:
       fail-fast: true
       matrix:
@@ -31,5 +33,5 @@ jobs:
       - name: Result
         id: final
         run: |
-          echo "${{ needs.matrixJob.outputs.result }}"
+          echo "${{ needs.matrixJob.outputs }}"
 
