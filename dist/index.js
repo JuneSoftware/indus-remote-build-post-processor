@@ -19,9 +19,6 @@ function run() {
     const regexTwo = new RegExp(`buildNumber:${os_1.EOL}    Standalone: (.)${os_1.EOL}    iPhone: (.)${os_1.EOL}    tvOS: (.)`, 'gm');
     let buildNumberMatch = regexOne.exec(settingsFile);
     let regexTwoMatch = regexTwo.exec(settingsFile);
-    console.log(os_1.EOL);
-    console.log(`Reading File ${buildNumberMatch}`);
-    console.log(`Settings File ${regexTwoMatch}`);
     if (!buildNumberMatch)
         return;
     if (!regexTwoMatch)

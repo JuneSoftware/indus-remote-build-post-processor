@@ -11,10 +11,6 @@ function run(): void {
   let buildNumberMatch = regexOne.exec(settingsFile);
   let regexTwoMatch = regexTwo.exec(settingsFile);
 
-  console.log(EOL);
-  console.log(`Reading File ${buildNumberMatch}`);
-  console.log(`Settings File ${regexTwoMatch}`);
-
   if(!buildNumberMatch)
     return;
 
