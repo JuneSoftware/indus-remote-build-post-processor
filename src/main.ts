@@ -5,7 +5,7 @@ function run(): void {
   const settingsFile = fs.readFileSync(filePath, 'utf8');
 
   const regexOne = /AndroidBundleVersionCode: (.)/g
-  const regexTwo = /buildNumber:\r\n    Standalone: (.)\r\n    iPhone: (.)\r\n    tvOS: (.)/gm;
+  const regexTwo = /buildNumber:\r    Standalone: (.)\r    iPhone: (.)\r    tvOS: (.)/gm;
 
   let buildNumberMatch = regexOne.exec(settingsFile);
   let regexTwoMatch = regexTwo.exec(settingsFile);
