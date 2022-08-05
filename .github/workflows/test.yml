@@ -33,5 +33,7 @@ jobs:
       - name: Result
         id: final
         run: |
-          echo "${{ needs.matrixJob.outputs }}"
+          echo "${{ needs.matrixJob.outputs.Main }}"
+          echo "${{ needs.matrixJob.outputs.Second }}"
+          echo "${{ needs.matrixJob.outputs.Third }}"
 
