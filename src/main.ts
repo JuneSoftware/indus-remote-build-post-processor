@@ -4,6 +4,8 @@ function run(): void {
   const filePath = 'ProjectSettings/ProjectSettings.asset';
   const settingsFile = fs.readFileSync(filePath, 'utf8');
 
+  console.log(`Reading File ${filePath}`);
+
   const regexOne = /AndroidBundleVersionCode: (.)/g
   const regexTwo = /buildNumber:\r\n    Standalone: (.)\r\n    iPhone: (.)\r\n    tvOS: (.)/gm;
 
