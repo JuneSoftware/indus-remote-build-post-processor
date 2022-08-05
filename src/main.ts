@@ -1,19 +1,32 @@
-import * as core from '@actions/core'
-import {wait} from './wait'
+import fs from 'fs'
 
-async function run(): Promise<void> {
-  try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+function run(): void {
+  const filePath = 'ProjectSettings/ProjectSettings.asset';
+  const settingsFile = fs.readFileSync(filePath, 'utf8');
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+  const regexOne = /AndroidBundleVersionCode: (.)/g
+  const regexTwo = /buildNumber:\r\n    Standalone: (.)\r\n    iPhone: (.)\r\n    tvOS: (.)/gm;
 
-    core.setOutput('time', new Date().toTimeString())
-  } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message)
-  }
+  let buildNumberMatch = regexOne.exec(settingsFile);
+  let regexTwoMatch = regexTwo.exec(settingsFile);
+
+  if(!buildNumberMatch)
+    return;
+
+  if(!regexTwoMatch)
+    return;
+
+  let modifiedFile = settingsFile;
+  let buildNumber = parseInt(buildNumberMatch[1]);
+  buildNumber++;
+
+  modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);
+  modifiedFile = modifiedFile.replace(regexTwoMatch[0], `buildNumber:\r\n    Standalone: ${buildNumber}\r\n    iPhone: ${buildNumber}\r\n    tvOS: ${buildNumber}`)
+  
+  fs.writeFileSync(filePath, modifiedFile);
+
+  console.log(`Build number ${buildNumber}`);
+  console.log(`Modified Settings ${modifiedFile}`);
 }
 
 run()
