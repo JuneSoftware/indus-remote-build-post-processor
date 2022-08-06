@@ -14,7 +14,7 @@ const core_1 = __importDefault(__nccwpck_require__(186));
 const fs_1 = __importDefault(__nccwpck_require__(747));
 const os_1 = __nccwpck_require__(87);
 function run() {
-    const incrementBuildNumber = core_1.default.getBooleanInput('incrementBuildNumber');
+    const incrementBuildNumber = core_1.default.getInput('incrementBuildNumber');
     const filePath = 'ProjectSettings/ProjectSettings.asset';
     const settingsFile = fs_1.default.readFileSync(filePath, 'utf8');
     const regexOne = new RegExp('AndroidBundleVersionCode: (.)', 'g');
@@ -27,7 +27,7 @@ function run() {
         return;
     let modifiedFile = settingsFile;
     let buildNumber = parseInt(buildNumberMatch[1]);
-    if (incrementBuildNumber)
+    if (incrementBuildNumber == 'true')
         buildNumber++;
     modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);
     modifiedFile = modifiedFile.replace(regexTwoMatch[0], `buildNumber:${os_1.EOL}    Standalone: ${buildNumber}${os_1.EOL}    iPhone: ${buildNumber}${os_1.EOL}    tvOS: ${buildNumber}`);

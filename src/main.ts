@@ -3,7 +3,7 @@ import fs from 'fs';
 import { EOL } from 'os';
 
 function run(): void {
-  const incrementBuildNumber = core.getBooleanInput('incrementBuildNumber');
+  const incrementBuildNumber = core.getInput('incrementBuildNumber');
   
   const filePath = 'ProjectSettings/ProjectSettings.asset';
   const settingsFile = fs.readFileSync(filePath, 'utf8');
@@ -23,7 +23,7 @@ function run(): void {
   let modifiedFile = settingsFile;
   let buildNumber = parseInt(buildNumberMatch[1]);
 
-  if(incrementBuildNumber)
+  if(incrementBuildNumber == 'true')
     buildNumber++;
 
   modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);
