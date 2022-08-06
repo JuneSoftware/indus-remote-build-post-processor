@@ -1,11 +1,10 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Build Post Processor'
+description: 'To update project settings after build is completed'
 inputs:
-  milliseconds: # change this
+  incrementBuildNumber:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'Increment Build Number'
+    default: false
 runs:
   using: 'node16'
   main: 'dist/index.js'
