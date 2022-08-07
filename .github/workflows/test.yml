@@ -10,6 +10,8 @@ jobs:
       - uses: ./
         with:
           incrementBuildNumber: false
+          buildLinks: ''
+          buildVersion: ''
   matrixJob:
     runs-on: ubuntu-latest
     outputs: 

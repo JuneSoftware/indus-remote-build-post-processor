@@ -5,6 +5,14 @@ inputs:
     required: true
     description: 'Increment Build Number'
     default: false
+  buildLinks:
+    required: true
+    description: 'Links for all successful builds'
+    default: ''
+  buildVersion:
+    required: true
+    description: Version number of the build
+    default: '0.0.1'
 runs:
   using: 'node16'
   main: 'dist/index.js'
