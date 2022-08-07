@@ -13,6 +13,10 @@ inputs:
     required: true
     description: Version number of the build
     default: '0.0.1'
+  buildPrefix:
+    required: true
+    description: Build link prefix
+    default: ''
 runs:
   using: 'node16'
   main: 'dist/index.js'
