@@ -8,6 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        with:
+          incrementBuildNumber: true
   matrixJob:
     runs-on: ubuntu-latest
     outputs: 
