@@ -3,7 +3,7 @@ on: # rebuild any PRs and main branch changes
   workflow_dispatch: 
 
 jobs:
-  build: # make sure build/ci work properly   https://indus-builds.s3.ap-south-1.amazonaws.com/Android/Android_Ver(0.17.10_1)___Date(07-08-2022_00-35-21)/Indus_V0.17.10_1.apk
+  build: # make sure build/ci work properly
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
@@ -11,7 +11,7 @@ jobs:
         with:
           incrementBuildNumber: false
           buildPrefix: 'https://indus-builds.s3.ap-south-1.amazonaws.com/'
-          buildLinks: 'Android/Android_Ver(0.17.10_1)___Date(07-08-2022_00-35-21)/Indus_V0.17.10_1.apk'
+          buildLinks: 'Android/Android_Ver(0.17.10_1)___Date(07-08-2022_00-35-21)/Indus_V0.17.10_1.apk,iOS/iOS_Ver(0.17.10_1)___Date(07-08-2022_00-35-21)/Indus_V0.17.10_1.apk'
           buildVersion: '0.17.10'
   matrixJob:
     runs-on: ubuntu-latest
