@@ -9,10 +9,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          incrementBuildNumber: false
+          incrementBuildNumber: true
           buildPrefix: 'https://indus-builds.s3.ap-south-1.amazonaws.com/'
           buildLinks: 'Android/Android_Ver(0.17.10_1)___Date(07-08-2022_00-35-21)/Indus_V0.17.10_1.apk,iOS/iOS_Ver(0.17.10_1)___Date(07-08-2022_00-35-21)/Indus_V0.17.10_1.zip,Windows64/Windows64_Ver(0.17.10_1)___Date(07-08-2022_00-35-21)/Indus_V0.17.10_1.zip'
           buildVersion: '0.17.10'
+          updateChangelog: true
   matrixJob:
     runs-on: ubuntu-latest
     outputs: 

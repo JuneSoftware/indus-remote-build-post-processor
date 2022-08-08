@@ -34,15 +34,17 @@ const fs_1 = __importDefault(__nccwpck_require__(747));
 const os_1 = __nccwpck_require__(87);
 function run() {
     const incrementBuildNumber = core.getInput('incrementBuildNumber');
+    const updateChangelog = core.getInput('updateChangelog');
     const buildLinks = core.getInput('buildLinks');
     const buildVersion = core.getInput('buildVersion');
+    const buildPrefix = core.getInput('buildPrefix');
     const settingsFilePath = 'ProjectSettings/ProjectSettings.asset';
     const settingsFile = fs_1.default.readFileSync(settingsFilePath, 'utf8');
     const regexOne = new RegExp('AndroidBundleVersionCode: (.)', 'g');
     const regexTwo = new RegExp(`buildNumber:${os_1.EOL}    Standalone: (.)${os_1.EOL}    iPhone: (.)${os_1.EOL}    tvOS: (.)`, 'gm');
-    if (buildLinks) {
+    if (buildLinks && updateChangelog == 'true') {
         const buildLinksArray = buildLinks.split(',');
-        addBuildLinks(buildLinksArray, buildVersion);
+        addBuildLinks(buildLinksArray, buildVersion, buildPrefix);
     }
     let buildNumberMatch = regexOne.exec(settingsFile);
     let regexTwoMatch = regexTwo.exec(settingsFile);
@@ -57,16 +59,43 @@ function run() {
     modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);
     modifiedFile = modifiedFile.replace(regexTwoMatch[0], `buildNumber:${os_1.EOL}    Standalone: ${buildNumber}${os_1.EOL}    iPhone: ${buildNumber}${os_1.EOL}    tvOS: ${buildNumber}`);
     fs_1.default.writeFileSync(settingsFilePath, modifiedFile);
-    console.log(`Build number ${buildNumber}`);
-    console.log(`Modified Settings ${modifiedFile}`);
+    console.log(`Updated Build number ${buildNumber}`);
 }
-function addBuildLinks(buildLinks, buildVersion) {
+function addBuildLinks(buildLinks, buildVersion, buildPrefix) {
+    const changelogMDFilePath = 'Changelogs/Changelog.md';
+    const changelogJSONFilePath = 'Changelogs/Changelog.json';
+    let changelogMDFile = fs_1.default.readFileSync(changelogMDFilePath, 'utf8');
+    let changelogJSONFile = fs_1.default.readFileSync(changelogJSONFilePath, 'utf8');
+    let logJson = JSON.parse(changelogJSONFile);
     buildLinks.forEach(link => {
         if (link) {
             const platform = link.split('/')[0];
-            console.log(`Build link for ${platform} : ${link} : ${buildVersion}`);
+            const linkReg = /- \[(.*)\]\((.*)\)/g;
+            const buildLinkMatch = changelogMDFile.matchAll(linkReg);
+            for (const match of buildLinkMatch) {
+                if (match && match.index) {
+                    if (platform == match[1] && match[2].includes(buildVersion)) {
+                        changelogMDFile = changelogMDFile.replace(`- [${match[1]}](${match[2]})`, `- [${platform}](${buildPrefix}${link})`);
+                        console.log(`Found ${match[1]} : ${match[2]}`);
+                    }
+                }
+            }
+            let releases = logJson['releases'];
+            for (let release of releases) {
+                if (release['versionNumber'] === buildVersion) {
+                    let links = release['links'];
+                    for (let buildLink of links) {
+                        if (buildLink['title'] === platform) {
+                            buildLink['link'] = `${buildPrefix}${link}`;
+                            console.log(buildLink['link']);
+                        }
+                    }
+                }
+            }
         }
     });
+    fs_1.default.writeFileSync(changelogJSONFilePath, JSON.stringify(logJson, null, '\t'));
+    fs_1.default.writeFileSync(changelogMDFilePath, changelogMDFile);
 }
 run();
 

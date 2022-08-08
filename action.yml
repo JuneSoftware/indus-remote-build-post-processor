@@ -3,7 +3,11 @@ description: 'To update project settings after build is completed'
 inputs:
   incrementBuildNumber:
     required: true
-    description: 'Increment Build Number'
+    description: 'Increment build number'
+    default: false
+  updateChangelog:
+    required: true
+    description: 'Update changelog by adding build links'
     default: false
   buildLinks:
     required: true
