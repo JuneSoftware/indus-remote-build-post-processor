@@ -47,10 +47,28 @@ function addBuildLinks(buildLinks : string[], buildVersion : string, buildPrefix
   const changelogMDFilePath = 'Changelogs/Changelog.md';
   const changelogJSONFilePath = 'Changelogs/Changelog.json';
   const linkReg = /- \[(.*)\]\((.*)\)/g; 
+  const dateReg = /## \[(.*)\](.*)/g;
 
   let changelogMDFile = fs.readFileSync(changelogMDFilePath, 'utf8');
   let changelogJSONFile = fs.readFileSync(changelogJSONFilePath, 'utf8');
   let logJson = JSON.parse(changelogJSONFile);
+
+  const currentdate = new Date(); 
+  const date = currentdate.getUTCDate().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  const month = (currentdate.getUTCMonth()+1).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  const year = currentdate.getUTCFullYear().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  const hours = currentdate.getUTCHours().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  const minutes = currentdate.getUTCMinutes().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  const seconds = currentdate.getUTCSeconds().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  const datetime = date + "-" + month  + "-" + year + " " + hours + ":" + minutes + ":" + seconds;
+
+  const dateLinkMatch = changelogMDFile.matchAll(dateReg);
+  for(const match of dateLinkMatch){
+    if(match && match.index && match[1] == buildVersion){
+      console.log(match[0]);
+      changelogMDFile = changelogMDFile.replace(`${match[0]}`, `## [${buildVersion}] - ${datetime}`);
+    }
+  }
 
   buildLinks.forEach(link => {
     if(link){
@@ -69,6 +87,7 @@ function addBuildLinks(buildLinks : string[], buildVersion : string, buildPrefix
       let releases = logJson['releases'];
       for(let release of releases) {
         if(release['versionNumber'] === buildVersion){
+          release['releaseDate'] = datetime;
           let links = release['links'];
           for(let buildLink of links){
             if(buildLink['title'] === platform){
