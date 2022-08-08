@@ -87,6 +87,7 @@ function addBuildLinks(buildLinks : string[], buildVersion : string, buildPrefix
       let links = release['links'];
       for(let i= links.length; i--;){
         if(links[i]['link'] === buildVersion){
+          console.log(`Removed from JSON ${links[i]['title']} : ${links[i]['link']}`);
           links.splice(i, 1);
         }
       }
