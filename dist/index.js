@@ -64,18 +64,18 @@ function run() {
 function addBuildLinks(buildLinks, buildVersion, buildPrefix) {
     const changelogMDFilePath = 'Changelogs/Changelog.md';
     const changelogJSONFilePath = 'Changelogs/Changelog.json';
+    const linkReg = /- \[(.*)\]\((.*)\)/g;
     let changelogMDFile = fs_1.default.readFileSync(changelogMDFilePath, 'utf8');
     let changelogJSONFile = fs_1.default.readFileSync(changelogJSONFilePath, 'utf8');
     let logJson = JSON.parse(changelogJSONFile);
     buildLinks.forEach(link => {
         if (link) {
             const platform = link.split('/')[0];
-            const linkReg = /- \[(.*)\]\((.*)\)/g;
             const buildLinkMatch = changelogMDFile.matchAll(linkReg);
             for (const match of buildLinkMatch) {
                 if (match && match.index) {
                     if (platform == match[1] && match[2].includes(buildVersion)) {
-                        changelogMDFile = changelogMDFile.replace(`- [${match[1]}](${match[2]})`, `- [${platform}](${buildPrefix}${link})`);
+                        changelogMDFile = changelogMDFile.replace(`${match[0]}`, `- [${platform}](${buildPrefix}${link})`);
                         console.log(`Found ${match[1]} : ${match[2]}`);
                     }
                 }
@@ -94,7 +94,27 @@ function addBuildLinks(buildLinks, buildVersion, buildPrefix) {
             }
         }
     });
-    fs_1.default.writeFileSync(changelogJSONFilePath, JSON.stringify(logJson, null, '\t'));
+    let releases = logJson['releases'];
+    for (let release of releases) {
+        if (release['versionNumber'] === buildVersion) {
+            let links = release['links'];
+            for (let i = links.length; i--;) {
+                if (links[i]['link'] === buildVersion) {
+                    links.splice(i, 1);
+                }
+            }
+        }
+    }
+    let modifiedLinkMatch = changelogMDFile.matchAll(linkReg);
+    for (const match of modifiedLinkMatch) {
+        if (match && match.index) {
+            if (match[2] == buildVersion) {
+                changelogMDFile = changelogMDFile.replace(`${match[0]}${os_1.EOL}`, '');
+                console.log(`Removed ${match[1]} : ${match[2]}`);
+            }
+        }
+    }
+    fs_1.default.writeFileSync(changelogJSONFilePath, JSON.stringify(logJson));
     fs_1.default.writeFileSync(changelogMDFilePath, changelogMDFile);
 }
 run();

@@ -46,6 +46,7 @@ function run(): void {
 function addBuildLinks(buildLinks : string[], buildVersion : string, buildPrefix : string) : void {
   const changelogMDFilePath = 'Changelogs/Changelog.md';
   const changelogJSONFilePath = 'Changelogs/Changelog.json';
+  const linkReg = /- \[(.*)\]\((.*)\)/g; 
 
   let changelogMDFile = fs.readFileSync(changelogMDFilePath, 'utf8');
   let changelogJSONFile = fs.readFileSync(changelogJSONFilePath, 'utf8');
@@ -54,13 +55,12 @@ function addBuildLinks(buildLinks : string[], buildVersion : string, buildPrefix
   buildLinks.forEach(link => {
     if(link){
       const platform = link.split('/')[0];
-      const linkReg = /- \[(.*)\]\((.*)\)/g; 
       const buildLinkMatch = changelogMDFile.matchAll(linkReg);
 
       for(const match of buildLinkMatch){
         if(match && match.index){
           if(platform == match[1] && match[2].includes(buildVersion)){
-            changelogMDFile = changelogMDFile.replace(`- [${match[1]}](${match[2]})`, `- [${platform}](${buildPrefix}${link})`);
+            changelogMDFile = changelogMDFile.replace(`${match[0]}`, `- [${platform}](${buildPrefix}${link})`);
             console.log(`Found ${match[1]} : ${match[2]}`);
           }
         }
@@ -81,7 +81,29 @@ function addBuildLinks(buildLinks : string[], buildVersion : string, buildPrefix
     }
   });
 
-  fs.writeFileSync(changelogJSONFilePath, JSON.stringify(logJson, null, '\t'));
+  let releases = logJson['releases'];
+  for(let release of releases) {
+    if(release['versionNumber'] === buildVersion){
+      let links = release['links'];
+      for(let i= links.length; i--;){
+        if(links[i]['link'] === buildVersion){
+          links.splice(i, 1);
+        }
+      }
+    }
+  }
+
+  let modifiedLinkMatch = changelogMDFile.matchAll(linkReg);
+  for(const match of modifiedLinkMatch){
+    if(match && match.index){
+      if(match[2] == buildVersion){
+        changelogMDFile = changelogMDFile.replace(`${match[0]}${EOL}`, '');
+        console.log(`Removed ${match[1]} : ${match[2]}`);
+      }
+    }
+  }
+
+  fs.writeFileSync(changelogJSONFilePath, JSON.stringify(logJson));
   fs.writeFileSync(changelogMDFilePath, changelogMDFile);
 }
 
