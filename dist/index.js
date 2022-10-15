@@ -33,33 +33,14 @@ const core = __importStar(__nccwpck_require__(186));
 const fs_1 = __importDefault(__nccwpck_require__(747));
 const os_1 = __nccwpck_require__(87);
 function run() {
-    const incrementBuildNumber = core.getInput('incrementBuildNumber');
     const updateChangelog = core.getInput('updateChangelog');
     const buildLinks = core.getInput('buildLinks');
     const buildVersion = core.getInput('buildVersion');
     const buildPrefix = core.getInput('buildPrefix');
-    const settingsFilePath = 'ProjectSettings/ProjectSettings.asset';
-    const settingsFile = fs_1.default.readFileSync(settingsFilePath, 'utf8');
-    const regexOne = new RegExp('AndroidBundleVersionCode: (.)', 'g');
-    const regexTwo = new RegExp(`buildNumber:${os_1.EOL}    Standalone: (.)${os_1.EOL}    iPhone: (.)${os_1.EOL}    tvOS: (.)`, 'gm');
     if (buildLinks && updateChangelog == 'true') {
         const buildLinksArray = buildLinks.split(',');
         addBuildLinks(buildLinksArray, buildVersion, buildPrefix);
     }
-    let buildNumberMatch = regexOne.exec(settingsFile);
-    let regexTwoMatch = regexTwo.exec(settingsFile);
-    if (!buildNumberMatch)
-        return;
-    if (!regexTwoMatch)
-        return;
-    let modifiedFile = settingsFile;
-    let buildNumber = parseInt(buildNumberMatch[1]);
-    if (incrementBuildNumber == 'true')
-        buildNumber++;
-    modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);
-    modifiedFile = modifiedFile.replace(regexTwoMatch[0], `buildNumber:${os_1.EOL}    Standalone: ${buildNumber}${os_1.EOL}    iPhone: ${buildNumber}${os_1.EOL}    tvOS: ${buildNumber}`);
-    fs_1.default.writeFileSync(settingsFilePath, modifiedFile);
-    console.log(`Updated Build number ${buildNumber}`);
 }
 function addBuildLinks(buildLinks, buildVersion, buildPrefix) {
     const changelogMDFilePath = 'Changelogs/Changelog.md';

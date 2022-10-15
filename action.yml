@@ -1,14 +1,10 @@
 name: 'Build Post Processor'
 description: 'To update project settings after build is completed'
 inputs:
-  incrementBuildNumber:
-    required: true
-    description: 'Increment build number'
-    default: false
   updateChangelog:
     required: true
     description: 'Update changelog by adding build links'
-    default: false
+    default: 'false'
   buildLinks:
     required: true
     description: 'Links for all successful builds'
