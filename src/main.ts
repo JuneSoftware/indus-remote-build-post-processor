@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import fs from 'fs';
+import path from 'path';
 import { EOL } from 'os';
 
 function run(): void {
@@ -15,8 +16,10 @@ function run(): void {
 }
 
 function addBuildLinks(buildLinks : string[], buildVersion : string, buildPrefix : string) : void {
-  const changelogMDFilePath = 'Changelogs/Changelog.md';
-  const changelogJSONFilePath = 'Changelogs/Changelog.json';
+  const changelogVersion = `${buildVersion.split('.')[0]}_${buildVersion.split('.')[1]}`;
+  const changelogPath = path.join('Changelogs', `Version_${changelogVersion}`);
+  const changelogMDFilePath = path.join(changelogPath, 'Changelog.md');
+  const changelogJSONFilePath = path.join(changelogPath, 'Changelog.json');;
   const linkReg = /- \[(.*)\]\((.*)\)/g; 
   const dateReg = /## \[(.*)\](.*)/g;
 
