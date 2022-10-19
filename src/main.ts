@@ -94,7 +94,7 @@ function addBuildLinks(buildLinks : string[], buildVersion : string, buildPrefix
     }
   }
 
-  fs.writeFileSync(changelogJSONFilePath, JSON.stringify(logJson));
+  fs.writeFileSync(changelogJSONFilePath, JSON.stringify(logJson, null, 4));
   fs.writeFileSync(changelogMDFilePath, changelogMDFile);
 }
 

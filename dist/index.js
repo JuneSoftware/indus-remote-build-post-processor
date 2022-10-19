@@ -113,7 +113,7 @@ function addBuildLinks(buildLinks, buildVersion, buildPrefix) {
             }
         }
     }
-    fs_1.default.writeFileSync(changelogJSONFilePath, JSON.stringify(logJson));
+    fs_1.default.writeFileSync(changelogJSONFilePath, JSON.stringify(logJson, null, 4));
     fs_1.default.writeFileSync(changelogMDFilePath, changelogMDFile);
 }
 run();
