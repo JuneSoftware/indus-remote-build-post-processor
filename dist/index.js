@@ -31,6 +31,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
 const fs_1 = __importDefault(__nccwpck_require__(747));
+const path_1 = __importDefault(__nccwpck_require__(622));
 const os_1 = __nccwpck_require__(87);
 function run() {
     const updateChangelog = core.getInput('updateChangelog');
@@ -43,8 +44,11 @@ function run() {
     }
 }
 function addBuildLinks(buildLinks, buildVersion, buildPrefix) {
-    const changelogMDFilePath = 'Changelogs/Changelog.md';
-    const changelogJSONFilePath = 'Changelogs/Changelog.json';
+    const changelogVersion = `${buildVersion.split('.')[0]}_${buildVersion.split('.')[1]}`;
+    const changelogPath = path_1.default.join('Changelogs', `Version_${changelogVersion}`);
+    const changelogMDFilePath = path_1.default.join(changelogPath, 'Changelog.md');
+    const changelogJSONFilePath = path_1.default.join(changelogPath, 'Changelog.json');
+    ;
     const linkReg = /- \[(.*)\]\((.*)\)/g;
     const dateReg = /## \[(.*)\](.*)/g;
     let changelogMDFile = fs_1.default.readFileSync(changelogMDFilePath, 'utf8');
@@ -113,7 +117,7 @@ function addBuildLinks(buildLinks, buildVersion, buildPrefix) {
             }
         }
     }
-    fs_1.default.writeFileSync(changelogJSONFilePath, JSON.stringify(logJson));
+    fs_1.default.writeFileSync(changelogJSONFilePath, JSON.stringify(logJson, null, 4));
     fs_1.default.writeFileSync(changelogMDFilePath, changelogMDFile);
 }
 run();
