@@ -112,7 +112,7 @@
 
 ### Links
 
-- [Windows64](https://indus-builds.s3.ap-south-1.amazonaws.com/Windows64/Windows64_Ver(0.17.6_2)___Date(01-08-2022_13-07-26)/Indus_V0.17.6_2.zip)
+- [Windows64](https://indus-builds.com/Windows64/Windows64_Ver(0.17.6_2)___/Indus_V0.17.6_2.zip)
 
 ## [0.17.5] - 01-08-2022 08:26:01
 
@@ -131,7 +131,7 @@
 
 ### Links
 
-- [Android](https://indus-builds.s3.ap-south-1.amazonaws.com/Android/Android_Ver(0.17.3_1)___Date(29-07-2022_14-36-24)/Indus_V0.17.3_1.apk)
-- [Windows64](https://indus-builds.s3.ap-south-1.amazonaws.com/Windows64/Windows64_Ver(0.17.5_1)___Date(29-07-2022_16-21-25)/Indus_V0.17.5_1.zip)
-- [iOS](https://indus-builds.s3.ap-south-1.amazonaws.com/iOS/iOS_Ver(0.17.5_1)___Date(29-07-2022_16-39-56)/Indus_V0.17.5_1.zip)
-- [WindowsServer64](https://indus-builds.s3.ap-south-1.amazonaws.com/WindowsServer64/WindowsServer64_Ver(0.17.5_1)___Date(31-07-2022_09-41-07)/Indus_V0.17.5_1.zip)
+- [Android](https://indus-builds.com/Android/Android_Ver(0.17.3_1)___/Indus_V0.17.3_1.apk)
+- [Windows64](https://indus-builds.com/Windows64/Windows64_Ver(0.17.5_1)___/Indus_V0.17.5_1.zip)
+- [iOS](https://indus-builds.com/iOS/iOS_Ver(0.17.5_1)___/Indus_V0.17.5_1.zip)
+- [WindowsServer64](https://indus-builds.com/WindowsServer64/WindowsServer64_Ver(0.17.5_1)___/Indus_V0.17.5_1.zip)

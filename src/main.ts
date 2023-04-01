@@ -19,7 +19,7 @@ function addBuildLinks(buildLinks : string[], buildVersion : string, buildPrefix
   const changelogVersion = `${buildVersion.split('.')[0]}_${buildVersion.split('.')[1]}`;
   const changelogPath = path.join('Changelogs', `Version_${changelogVersion}`);
   const changelogMDFilePath = path.join(changelogPath, 'Changelog.md');
-  const changelogJSONFilePath = path.join(changelogPath, 'Changelog.json');;
+  const changelogJSONFilePath = path.join(changelogPath, `Changelog_${buildVersion.split('.')[2]}.json`);
   const linkReg = /- \[(.*)\]\((.*)\)/g; 
   const dateReg = /## \[(.*)\](.*)/g;
 
